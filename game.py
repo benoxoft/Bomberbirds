@@ -3,7 +3,7 @@ import pygame
 def main():
     pygame.init()
     
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((256, 240))
 
     pygame.display.set_caption('Bomberbirds')
     pygame.mouse.set_visible(False)
