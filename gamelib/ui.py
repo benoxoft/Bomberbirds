@@ -7,9 +7,14 @@ class UI:
     def __init__(self):
         self.tiles = Group()
         #self.tiles.add(Dirt(0, 224, 256, 256))
-        self.tiles.add(Grass(0, 224, 256, 256))
-        self.tiles.add(Grass(32, 96, 48, 16))
-        self.tiles.add(Grass(176, 96, 48, 16))
+        self.tiles.add(Grass(96, 176, 64, 16))
+        
+        self.tiles.add(Grass(32, 64, 32, 16))
+        self.tiles.add(Grass(192, 64, 32, 16))
+
+        self.tiles.add(Grass(32, 224, 32, 16))
+        self.tiles.add(Grass(192, 224, 32, 16))
+        
         self.tiles.add(TNTCrate())
     def update(self, tick):
         pass
@@ -18,7 +23,7 @@ class UI:
 class TNTCrate(Sprite):
     def __init__(self):
         Sprite.__init__(self)
-        self.rect = pygame.rect.Rect(96, 160, 64, 64)
+        self.rect = pygame.rect.Rect(96, 112, 64, 64)
         self.image = pygame.surface.Surface((self.rect.width, self.rect.height))
         self.image.blit(media.tntcrate, self.image.get_rect())
         
