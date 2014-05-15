@@ -13,7 +13,7 @@ class Bird(Sprite):
         
         self.imgflip = False
         self.dir = 1
-        self.flyup = True 
+        self.wing = 0 
 
         if birdno == 1:
             self.bird = media.bird1
@@ -45,10 +45,13 @@ class Bird(Sprite):
             self.dir = -1
 
 
-        self.move = Movement(self, thrust_strength = 1800,
-                             accelx = 900,
-                             maxspeedx = 1000,
-                             maxspeedy = 1000,
+        self.move = Movement(self, 
+                             thrust_strength = 0,
+                             accelx = 1000,
+                             accely = 1000,
+                             maxspeedx = 120,
+                             maxspeedy = 120,
+                             gravity = 1000,
                              posx=self.initx,
                              posy=self.inity)
             
@@ -81,30 +84,32 @@ class Bird(Sprite):
         self.dir = -1
         self.flip()
 
-        if self.move.speedy == 0:
-            self.move.moveleft(tick)
+        #if self.move.speedy == 0:
+        self.move.moveleft(tick)
         
     def moveright(self, tick):
         self.dir = 1
         self.flip()
-        if self.move.speedy == 0:
-            self.move.moveright(tick)
+        #if self.move.speedy == 0:
+        self.move.moveright(tick)
         
     def thrust(self, tick):
-        if self.flyup:
+        self.wing += 1
+        if self.wing == 3:
             self.image = self.birdflydown
             self.flyup = False
-        else:
+            self.imgflip = False
+            self.flip()
+        elif self.wing == 6:
             self.image = self.birdflyup
             self.flyup = True
+            self.imgflip = False
+            self.flip()
             
-        self.imgflip = False
-        self.flip()
+        elif self.wing > 6:
+            self.wing = 0
+            
         self.firstupdate = True
-        if self.imgflip:
-            self.move.moveleft(tick / 2)
-        else:
-            self.move.moveright(tick / 2)
         self.move.thrust(tick)
         
     def update(self, tick):

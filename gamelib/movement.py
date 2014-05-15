@@ -32,7 +32,8 @@ class Movement(Group):
                   thrust_strength = 0,
                   accelx = 0,
                   accely = 0,
-                  gravity = 1000):
+                  gravity = 1000,
+                  flying = False):
         Group.__init__(self)
         self.moving_sprite = moving_sprite
         self.speedx = speedx
@@ -45,6 +46,7 @@ class Movement(Group):
         self.accelx = accelx
         self.accely = accely
         self.gravity = gravity
+        self.flying = False
         self.bumping_walls = []
         
     def get_speed(self):
