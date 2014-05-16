@@ -8,13 +8,16 @@ import media
 class Bird(Sprite):
     
     
-    def __init__(self, birdno):
+    def __init__(self, birdno, add_bomb):
         Sprite.__init__(self)
         
         self.imgflip = False
         self.dir = 1
         self.wing = 0 
-
+        self.has_bomb = False
+        self.bomb = None
+        self.add_bomb = add_bomb
+        
         if birdno == 1:
             self.bird = media.bird1
             self.birdflyup = media.birdflyup1
@@ -46,12 +49,12 @@ class Bird(Sprite):
 
 
         self.move = Movement(self, 
-                             thrust_strength = 0,
-                             accelx = 1000,
-                             accely = 1000,
+                             thrust_strength = 1000,
+                             accelx = 700,
+                             accely = 200,
                              maxspeedx = 120,
-                             maxspeedy = 120,
-                             gravity = 1000,
+                             maxspeedy = 160,
+                             gravity = 500,
                              posx=self.initx,
                              posy=self.inity)
             
@@ -72,6 +75,21 @@ class Bird(Sprite):
         self.dir = 1
         self.flip()
         
+    def nuke(self):
+        if not self.has_bomb:
+            self.create_bomb()
+            self.has_bomb = True
+        else:
+            self.throw_bomb()
+    
+    def create_bomb(self):
+        self.bomb = Bomb(self)
+        self.add_bomb(self.bomb)
+        
+    def throw_bomb(self):
+        self.has_bomb = False
+        self.bomb.launch(self.move.speedx, self.move.speedy)
+    
     def flip(self):
         if not self.imgflip and self.dir == -1:
             self.image = pygame.transform.flip(self.image, True, False)
@@ -137,3 +155,68 @@ class Bird(Sprite):
         if self.lives == 0:
             self.raise_no_more_life_event()
         
+class Bomb(Sprite):
+    
+    def __init__(self, bird):
+        Sprite.__init__(self)
+        self.bird = bird
+        self.bomb = media.bomb.convert()
+        self.bomb2 = media.bomb2.convert()
+        self.boom = media.boom.convert()        
+        self.rect = pygame.rect.Rect(self.bird.rect.x, bird.rect.y + 16, 16, 16)
+        self.image = self.bomb
+        self.move = Movement(self,
+                             accelx = 1000,
+                             accely = 1000,
+                             maxspeedx = 200,
+                             maxspeedy = 200,
+                             gravity = 1000,
+                             decrease_speed_ratio = 2                        
+                             )
+        self.move.add(self.bird.move.sprites())
+        self.timeout = 3400
+        self.explode_event = None
+        self.delete_bomb = None
+        self.exploded = False
+        self.bombstate = 4
+        self.attached = True
+        
+    def launch(self, speedx, speedy):
+        self.attached = False
+        self.move.speedx = speedx
+        self.move.speedy = speedy
+        self.move.posx = self.rect.x
+        self.move.posy = self.rect.y
+        
+    def update(self, tick):
+            
+        self.timeout -= tick
+        if 400 < self.timeout < 800:
+            if self.bombstate == 4:
+                self.image = self.bomb2
+            elif self.bombstate == 2:
+                self.image = self.bomb
+            self.bombstate -= 1
+            if self.bombstate == 0:
+                self.bombstate = 4
+                
+        if self.timeout < 400 and not self.exploded:
+            self.explode_event(self)
+            self.exploded = True
+            self.attached = False
+            self.rect.height = 64
+            self.rect.width = 64
+            self.rect.x -= 16
+            self.rect.y -= 16
+            self.image = self.boom
+        if self.timeout < 0:
+            self.delete_bomb(self)
+            
+        if self.attached:
+            self.rect.x = self.bird.rect.x
+            self.rect.y = self.bird.rect.y + 16
+        elif not self.exploded:
+            self.move.calculate_movement(tick)
+    
+            self.rect.x = self.move.posx
+            self.rect.y = self.move.posy

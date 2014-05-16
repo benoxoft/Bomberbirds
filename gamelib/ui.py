@@ -6,6 +6,8 @@ class UI:
     
     def __init__(self):
         self.tiles = Group()
+        self.bg = Group()
+        
         #self.tiles.add(Dirt(0, 224, 256, 256))
         self.tiles.add(Grass(96, 176, 64, 16))
         
@@ -15,8 +17,10 @@ class UI:
         self.tiles.add(Grass(32, 224, 32, 16))
         self.tiles.add(Grass(192, 224, 32, 16))
         
-        self.tiles.add(TNTCrate())
+        self.bg.add(TNTCrate())
+        
     def update(self, tick):
+        
         pass
     
 
@@ -58,7 +62,4 @@ class Dirt(Tile):
 class Water(Tile):
     def __init__(self, x, y, h, w):
         Tile.__init__(self, media.water, x, y, h, w)
-                
-        
-        
-                
+                            
