@@ -35,14 +35,14 @@ class TNTCrate(Sprite):
         self.image = media.tntcrate.convert()
         
     def explode(self, bird):
-        for i in xrange(0, 10):
+        for i in xrange(0, random.randint(5, 10)):
             b = Bomb(bird)
             bird.add_bomb(b)
-            b.timeout = 1200
+            b.timeout = 1600
             b.rect.x = self.rect.x
-            b.rect.y = self.rect.y
-            b.launch(random.randint(-100, 100), -random.randint(500, 2000))
-        self.rect = pygame.rect.Rect(1000,1000,0,0)
+            b.rect.y = self.rect.y - 32
+            b.launch(random.randint(-200, 200), -random.randint(50, 300))
+        self.rect = pygame.rect.Rect(10000,10000,0,0)
             
     def update(self, tick):
         pass

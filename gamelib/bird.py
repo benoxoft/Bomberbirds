@@ -133,13 +133,13 @@ class Bird(Sprite):
             self.flyup = False
             self.imgflip = False
             self.flip()
-            sounds.flap1.play()
+            #sounds.flap1.play()
         elif self.wing == 6:
             self.image = self.birdflyup
             self.flyup = True
             self.imgflip = False
             self.flip()
-            sounds.flap2.play()            
+            #sounds.flap2.play()            
         elif self.wing > 6:
             self.wing = 0
             
