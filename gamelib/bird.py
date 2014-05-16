@@ -4,9 +4,9 @@ from movement import Movement
 import pygame
 import math
 import media
+import sounds
 
 class Bird(Sprite):
-    
     
     def __init__(self, birdno, add_bomb):
         Sprite.__init__(self)
@@ -123,7 +123,6 @@ class Bird(Sprite):
             self.flyup = True
             self.imgflip = False
             self.flip()
-            
         elif self.wing > 6:
             self.wing = 0
             
@@ -159,6 +158,7 @@ class Bomb(Sprite):
     
     def __init__(self, bird):
         Sprite.__init__(self)
+        sounds.bomb.play()
         self.bird = bird
         self.bomb = media.bomb.convert()
         self.bomb2 = media.bomb2.convert()
@@ -183,6 +183,7 @@ class Bomb(Sprite):
         
     def launch(self, speedx, speedy):
         self.attached = False
+        sounds.throw.play()
         self.move.speedx = speedx
         self.move.speedy = speedy
         self.move.posx = self.rect.x
@@ -203,6 +204,7 @@ class Bomb(Sprite):
         if self.timeout < 400 and not self.exploded:
             self.explode_event(self)
             self.exploded = True
+            sounds.explode.play()
             self.attached = False
             self.rect.height = 64
             self.rect.width = 64

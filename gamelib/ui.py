@@ -8,7 +8,6 @@ class UI:
         self.tiles = Group()
         self.bg = Group()
         
-        #self.tiles.add(Dirt(0, 224, 256, 256))
         self.tiles.add(Grass(96, 176, 64, 16))
         
         self.tiles.add(Grass(32, 64, 32, 16))
@@ -29,7 +28,7 @@ class TNTCrate(Sprite):
         Sprite.__init__(self)
         self.rect = pygame.rect.Rect(96, 112, 64, 64)
         self.image = pygame.surface.Surface((self.rect.width, self.rect.height))
-        self.image.blit(media.tntcrate, self.image.get_rect())
+        self.image.blit(media.tntcrate.convert(), self.image.get_rect())
         
 class Tile(Sprite):
     

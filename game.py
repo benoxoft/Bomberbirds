@@ -1,9 +1,10 @@
 import pygame
-from gamelib.game import Game, GameControl
 
-    
 pygame.init()
+pygame.mixer.init()
 
+from gamelib.game import Game, GameControl
+   
 pygame.display.set_caption('Bomberbirds')
 pygame.mouse.set_visible(False)
 
