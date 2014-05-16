@@ -8,6 +8,7 @@ class UI:
     def __init__(self):
         self.tiles = Group()
         self.bg = Group()
+        self.tntcrate = TNTCrate()
         
         self.tiles.add(Grass(96, 176, 64, 16))
         
@@ -20,7 +21,7 @@ class UI:
         for i in xrange(0, 50):
             self.bg.add(Star())
 
-        self.bg.add(TNTCrate())
+        self.bg.add(self.tntcrate)
         
     def update(self, tick):
         pass
@@ -32,6 +33,9 @@ class TNTCrate(Sprite):
         self.rect = pygame.rect.Rect(96, 112, 64, 64)
         self.image = media.tntcrate.convert()
         
+    def explode(self):
+        pass
+            
     def update(self, tick):
         pass
     

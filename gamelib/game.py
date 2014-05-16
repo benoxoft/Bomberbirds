@@ -3,6 +3,7 @@ import ui
 from bird import Bird
 from brain import BirdBrain
 import math
+import os
 
 from pygame.sprite import Group
 
@@ -24,6 +25,7 @@ class GameControl:
 class Game:
     
     def __init__(self):
+        os.environ['SDL_VIDEO_CENTERED'] = '1'
         self.screen = pygame.display.set_mode((256, 240))
         self.ctrl = GameControl()
         self.clock = pygame.time.Clock()
@@ -77,6 +79,8 @@ class Game:
                         self.ctrl.keepPlaying = False  
                     elif e.key == pygame.K_SPACE:
                         self.mainchar.nuke()
+                elif e.type == pygame.QUIT:
+                    self.ctrl.keepPlaying = False
             if self.ctrl.leftKeyDown:
                 self.mainchar.moveleft(tick)
             if self.ctrl.rightKeyDown:
@@ -108,14 +112,30 @@ class Game:
         
     def explode_event(self, bomb):
         self.bg_explode = 10
+
+        distance = math.sqrt(
+                             abs(bomb.rect.centerx - self.ui.tntcrate.rect.centerx)**2 +
+                             abs(bomb.rect.centery - self.ui.tntcrate.rect.centery)**2)
+        if distance <= 56:
+            self.ui.tntcrate.explode()
+            
+        for b in self.bombs:
+            if b is bomb:
+                continue
+            distance = math.sqrt(
+                                 abs(bomb.rect.centerx - b.rect.centerx)**2 +
+                                 abs(bomb.rect.centery - b.rect.centery)**2)
+            if distance <= 24 and not b.exploded:
+                b.explode()
+                
         for b in self.birds:
             distance = math.sqrt(
                                  abs(bomb.rect.centerx - b.rect.centerx)**2 +
                                  abs(bomb.rect.centery - b.rect.centery)**2)
 
-            if distance <= 48:
+            if distance <= 24:
                 b.kill()
-                    
+                        
     def delete_bomb(self, bomb):
         self.bombs.remove(bomb)
                 
@@ -131,8 +151,20 @@ class Game:
             b.update(tick)
             self.screen.blit(b.image, pygame.rect.Rect(b.rect.x, b.rect.y, b.rect.w, b.rect.h))
             
-        for b in self.bombs:
-            b.update(tick)
-            self.screen.blit(b.image, pygame.rect.Rect(b.rect.x, b.rect.y, b.rect.w, b.rect.h))
+        for bomb in self.bombs:
+            bomb.update(tick)
+            self.screen.blit(bomb.image, pygame.rect.Rect(bomb.rect.x, bomb.rect.y, bomb.rect.w, bomb.rect.h))
             
+            if bomb.attached:
+                continue
+            
+            for b in self.birds:
+                if b is bomb.bird:
+                    continue
+                distance = math.sqrt(
+                                     abs(bomb.rect.centerx - b.rect.centerx)**2 +
+                                     abs(bomb.rect.centery - b.rect.centery)**2)                
+                if distance <= 8:
+                    bomb.explode()
+
             

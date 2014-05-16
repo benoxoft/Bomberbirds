@@ -33,7 +33,7 @@ class Movement(Group):
                   accelx = 0,
                   accely = 0,
                   gravity = 1000,
-                  decrease_speed_ratio = 1.2):
+                  decrease_speed_ratio = 2.0):
         Group.__init__(self)
         self.moving_sprite = moving_sprite
         self.speedx = speedx

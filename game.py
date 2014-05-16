@@ -11,4 +11,4 @@ pygame.mouse.set_visible(False)
 continue_playing = True
 game = Game()
 game.start()
-    
+pygame.quit()
