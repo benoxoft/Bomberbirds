@@ -117,7 +117,7 @@ class Game:
                              abs(bomb.rect.centerx - self.ui.tntcrate.rect.centerx)**2 +
                              abs(bomb.rect.centery - self.ui.tntcrate.rect.centery)**2)
         if distance <= 56:
-            self.ui.tntcrate.explode()
+            self.ui.tntcrate.explode(bomb.bird)
             
         for b in self.bombs:
             if b is bomb:

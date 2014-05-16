@@ -2,6 +2,7 @@ import media
 import pygame
 from pygame.sprite import Sprite, Group 
 import random
+from bomb import Bomb
 
 class UI:
     
@@ -33,8 +34,15 @@ class TNTCrate(Sprite):
         self.rect = pygame.rect.Rect(96, 112, 64, 64)
         self.image = media.tntcrate.convert()
         
-    def explode(self):
-        pass
+    def explode(self, bird):
+        for i in xrange(0, 10):
+            b = Bomb(bird)
+            bird.add_bomb(b)
+            b.timeout = 1200
+            b.rect.x = self.rect.x
+            b.rect.y = self.rect.y
+            b.launch(random.randint(-100, 100), -random.randint(500, 2000))
+        self.rect = pygame.rect.Rect(1000,1000,0,0)
             
     def update(self, tick):
         pass
