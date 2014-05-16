@@ -18,6 +18,7 @@ class Bird(Sprite):
         self.bomb = None
         self.add_bomb = add_bomb
         self.dead = False
+        self.brain = None
         
         if birdno == 1:
             self.bird = media.bird1
@@ -38,16 +39,15 @@ class Bird(Sprite):
             self.birdflyup = media.birdflyup3
             self.birdflydown = media.birdflydown3
             self.initx = 32
-            self.inity = 96
+            self.inity = 192
         else:
             self.bird = media.bird4
             self.birdflyup = media.birdflyup4
             self.birdflydown = media.birdflydown4
             self.initx = 192
-            self.inity = 96
+            self.inity = 192
             self.imgflip = True
             self.dir = -1
-
 
         self.move = Movement(self, 
                              thrust_strength = 1000,
@@ -132,11 +132,13 @@ class Bird(Sprite):
             self.flyup = False
             self.imgflip = False
             self.flip()
+            sounds.flap1.play()
         elif self.wing == 6:
             self.image = self.birdflyup
             self.flyup = True
             self.imgflip = False
             self.flip()
+            sounds.flap2.play()            
         elif self.wing > 6:
             self.wing = 0
             
@@ -148,6 +150,9 @@ class Bird(Sprite):
         sounds.kill3.play()
         
     def update(self, tick):
+        if self.brain is not None:
+            self.brain.update(tick)
+
         if not self.firstupdate:
             if self.dead:
                 self.image = self.deadbird

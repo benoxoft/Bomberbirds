@@ -1,6 +1,7 @@
 import pygame
 import ui
 from bird import Bird
+from brain import BirdBrain
 import math
 
 from pygame.sprite import Group
@@ -34,9 +35,20 @@ class Game:
         self.birds = Group()
         self.mainchar = Bird(1, self.add_bomb)
         self.birds.add(self.mainchar)
-        self.birds.add(Bird(2, self.add_bomb))
-        self.birds.add(Bird(3, self.add_bomb))
-        self.birds.add(Bird(4, self.add_bomb))
+        
+        bird2 = Bird(2, self.add_bomb)
+        self.birds.add(bird2)
+        
+        bird3 = Bird(3, self.add_bomb)
+        self.birds.add(bird3)
+        
+        bird4 = Bird(4, self.add_bomb)
+        self.birds.add(bird4)
+
+        bird2.brain = BirdBrain(bird2, self.birds)
+        bird3.brain = BirdBrain(bird3, self.birds)
+        bird4.brain = BirdBrain(bird4, self.birds)
+        
         self.bombs = Group()
         
         for b in self.birds:
