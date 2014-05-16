@@ -45,6 +45,7 @@ class Game:
         bird4 = Bird(4, self.add_bomb)
         self.birds.add(bird4)
 
+        #self.mainchar.brain = BirdBrain(self.mainchar, self.birds)
         bird2.brain = BirdBrain(bird2, self.birds)
         bird3.brain = BirdBrain(bird3, self.birds)
         bird4.brain = BirdBrain(bird4, self.birds)
@@ -119,9 +120,11 @@ class Game:
         self.bombs.remove(bomb)
                 
     def draw(self, tick):
-        for t in self.ui.tiles:
-            self.screen.blit(t.image, pygame.rect.Rect(t.rect.x, t.rect.y, t.rect.w, t.rect.h))
         for t in self.ui.bg:
+            t.update(tick)
+            self.screen.blit(t.image, pygame.rect.Rect(t.rect.x, t.rect.y, t.rect.w, t.rect.h))
+
+        for t in self.ui.tiles:
             self.screen.blit(t.image, pygame.rect.Rect(t.rect.x, t.rect.y, t.rect.w, t.rect.h))
         
         for b in self.birds:

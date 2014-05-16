@@ -17,7 +17,7 @@ class BirdBrain:
         self.next_action -= tick
         if self.next_action < 0:
             self.next_action = random.randint(500, 3000)
-            self.direction = random.randint(0, 2)
+            self.direction = random.randint(0, 1)
             self.thrust = random.randint(0, 4)
         self.nuke = random.randint(0, 50)
         if self.direction == 0:
@@ -30,7 +30,7 @@ class BirdBrain:
         
         if self.nuke == 0 and not self.launch:
             self.owner.nuke()
-            self.nuke_time = random.randint(200, 2000)
+            self.nuke_time = random.randint(200, 1600)
             self.launch = True
             self.nuke = 1
         if self.launch and self.nuke_time < 0:
