@@ -1,6 +1,7 @@
 import pygame
 import ui
 from bird import Bird
+import math
 
 from pygame.sprite import Group
 
@@ -94,7 +95,14 @@ class Game:
         
     def explode_event(self, bomb):
         self.bg_explode = 10
+        for b in self.birds:
+            distance = math.sqrt(
+                                 abs(bomb.rect.centerx - b.rect.centerx)**2 +
+                                 abs(bomb.rect.centery - b.rect.centery)**2)
 
+            if distance <= 32:
+                b.kill()
+                    
     def delete_bomb(self, bomb):
         self.bombs.remove(bomb)
                 

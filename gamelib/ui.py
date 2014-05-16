@@ -26,9 +26,8 @@ class UI:
 class TNTCrate(Sprite):
     def __init__(self):
         Sprite.__init__(self)
-        self.rect = pygame.rect.Rect(96, 112, 64, 64)
-        self.image = pygame.surface.Surface((self.rect.width, self.rect.height))
-        self.image.blit(media.tntcrate.convert(), self.image.get_rect())
+        self.rect = pygame.rect.Rect(96, 116, 64, 64)
+        self.image = media.tntcrate.convert()
         
 class Tile(Sprite):
     

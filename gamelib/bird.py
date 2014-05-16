@@ -17,6 +17,7 @@ class Bird(Sprite):
         self.has_bomb = False
         self.bomb = None
         self.add_bomb = add_bomb
+        self.dead = False
         
         if birdno == 1:
             self.bird = media.bird1
@@ -63,6 +64,8 @@ class Bird(Sprite):
         self.firstupdate = False
         self.image = self.bird
         self.rect = self.image.get_rect()
+        self.rect.width /= 2
+        self.rect.height -= 4
         self.lives = 3
         
         self.no_more_life_event = None
@@ -76,6 +79,9 @@ class Bird(Sprite):
         self.flip()
         
     def nuke(self):
+        if self.dead:
+            return
+        
         if not self.has_bomb:
             self.create_bomb()
             self.has_bomb = True
@@ -99,19 +105,27 @@ class Bird(Sprite):
             self.imgflip = False
         
     def moveleft(self, tick):
+        if self.dead:
+            return
+        
         self.dir = -1
         self.flip()
 
-        #if self.move.speedy == 0:
         self.move.moveleft(tick)
         
     def moveright(self, tick):
+        if self.dead:
+            return
+        
         self.dir = 1
         self.flip()
         #if self.move.speedy == 0:
         self.move.moveright(tick)
         
     def thrust(self, tick):
+        if self.dead:
+            return
+        
         self.wing += 1
         if self.wing == 3:
             self.image = self.birdflydown
@@ -129,9 +143,16 @@ class Bird(Sprite):
         self.firstupdate = True
         self.move.thrust(tick)
         
+    def kill(self):
+        self.dead = True
+        sounds.kill3.play()
+        
     def update(self, tick):
         if not self.firstupdate:
-            self.image = self.bird
+            if self.dead:
+                self.image = self.deadbird
+            else:
+                self.image = self.bird
             self.imgflip = False
             self.flip()
         self.firstupdate = False
