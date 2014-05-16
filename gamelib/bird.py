@@ -210,8 +210,8 @@ class Bomb(Sprite):
     def launch(self, speedx, speedy):
         self.attached = False
         sounds.throw.play()
-        self.move.speedx = speedx
-        self.move.speedy = speedy
+        self.move.speedx = speedx * 1.5
+        self.move.speedy = speedy * 1.5
         self.move.posx = self.rect.x
         self.move.posy = self.rect.y
         

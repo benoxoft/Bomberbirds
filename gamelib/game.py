@@ -113,7 +113,7 @@ class Game:
                                  abs(bomb.rect.centerx - b.rect.centerx)**2 +
                                  abs(bomb.rect.centery - b.rect.centery)**2)
 
-            if distance <= 32:
+            if distance <= 48:
                 b.kill()
                     
     def delete_bomb(self, bomb):
