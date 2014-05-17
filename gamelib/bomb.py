@@ -4,13 +4,12 @@ from movement import Movement
 import pygame
 import math
 import media
-import sounds
 
 class Bomb(Sprite):
     
     def __init__(self, bird):
         Sprite.__init__(self)
-        sounds.bomb.play()
+        media.createbomb.play()
         self.bird = bird
         self.bomb = media.bomb.convert()
         self.bomb2 = media.bomb2.convert()
@@ -35,7 +34,7 @@ class Bomb(Sprite):
         
     def launch(self, speedx, speedy):
         self.attached = False
-        sounds.throw.play()
+        media.throw.play()
         self.move.speedx = speedx * 2
         self.move.speedy = speedy * 2
         self.move.posx = self.rect.x
@@ -45,7 +44,7 @@ class Bomb(Sprite):
         self.timeout = 400
         self.exploded = True
         self.explode_event(self)
-        sounds.explode.play()
+        media.explode.play()
         self.attached = False
         self.rect.height = 64
         self.rect.width = 64

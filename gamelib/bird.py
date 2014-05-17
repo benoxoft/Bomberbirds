@@ -5,7 +5,6 @@ from bomb import Bomb
 import pygame
 import math
 import media
-import sounds
 
 class Bird(Sprite):
     
@@ -133,13 +132,11 @@ class Bird(Sprite):
             self.flyup = False
             self.imgflip = False
             self.flip()
-            #sounds.flap1.play()
         elif self.wing == 6:
             self.image = self.birdflyup
             self.flyup = True
             self.imgflip = False
             self.flip()
-            #sounds.flap2.play()            
         elif self.wing > 6:
             self.wing = 0
             
@@ -148,7 +145,7 @@ class Bird(Sprite):
         
     def kill(self):
         self.dead = True
-        sounds.kill3.play()
+        media.kill.play()
         
     def update(self, tick):
         if self.brain is not None:
@@ -165,11 +162,6 @@ class Bird(Sprite):
         
         self.move.calculate_movement(tick)
 
-        #if self.move.speedx > 0:
-        #    self.move.speedx -= 1
-        #elif self.move.speedx < 0:
-        #    self.move.speedx += 1
-            
         self.rect.x = self.move.posx
         self.rect.y = self.move.posy
 

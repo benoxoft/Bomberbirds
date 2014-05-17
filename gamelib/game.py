@@ -41,16 +41,16 @@ class Game:
         bird2 = Bird(2, self.add_bomb)
         self.birds.add(bird2)
         
-        bird3 = Bird(3, self.add_bomb)
-        self.birds.add(bird3)
+        #bird3 = Bird(3, self.add_bomb)
+        #self.birds.add(bird3)
         
-        bird4 = Bird(4, self.add_bomb)
-        self.birds.add(bird4)
+        #bird4 = Bird(4, self.add_bomb)
+        #self.birds.add(bird4)
 
         #self.mainchar.brain = BirdBrain(self.mainchar, self.birds)
         bird2.brain = BirdBrain(bird2, self.birds)
-        bird3.brain = BirdBrain(bird3, self.birds)
-        bird4.brain = BirdBrain(bird4, self.birds)
+        #bird3.brain = BirdBrain(bird3, self.birds)
+        #bird4.brain = BirdBrain(bird4, self.birds)
         
         self.bombs = Group()
         
