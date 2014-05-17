@@ -51,7 +51,6 @@ class Bird(Sprite):
             
 
         self.add_bomb = game.add_bomb_event
-        self.die = game.kill_event
         
         self.firstupdate = False
         self.image = self.bird
@@ -142,14 +141,10 @@ class Bird(Sprite):
             return 
         
         self.dead = True
+        self.has_bomb = False
         self.lives -= 1
-        print self.lives
         media.kill.play()
         self.counter_resurrect = 3000
-        self.die(self)
-        
-#        if self.lives == 0:
-#            self.raise_no_more_life_event()
 
     def update(self, tick):
         if self.counter_invincible > 0:

@@ -37,6 +37,7 @@ class Game:
         self.ctrl = GameControl()
         self.clock = pygame.time.Clock()
         self.menu = menu
+        self.menu.cursor_pos = 0
         
         if demo:
             pygame.mixer.music.load(media.random_silly_chip_song_file)
@@ -44,7 +45,6 @@ class Game:
         else:
             pygame.mixer.music.load(media.Grey_Sector_v0_86_0_file)
             pygame.mixer.music.play(-1)
-            
         
         self.bg_explode = 0
         self.bg_color = (0, 0, 0)
@@ -83,7 +83,7 @@ class Game:
     def start(self):
         while self.ctrl.keepPlaying:
             for e in pygame.event.get():
-                if self.demo:
+                if self.demo or self.menu.game_over:
                     self.manage_keys_demo(e)
                 else:
                     self.manage_keys_normal(e)
@@ -145,11 +145,11 @@ class Game:
                 self.ctrl.keepPlaying = False  
                 self.ctrl.quit = True
             elif e.key == pygame.K_SPACE:
-                if not self.menu.next_screen():
+                if not self.menu.next_screen() or self.menu.game_over != 0:
                     self.ctrl.keepPlaying = False
-            elif e.key == pygame.K_UP:
+            elif e.key == pygame.K_UP or e.key == pygame.K_w:
                 self.menu.cursor_up()
-            elif e.key == pygame.K_DOWN:
+            elif e.key == pygame.K_DOWN or e.key == pygame.K_s:
                 self.menu.cursor_down()
     
     def add_bomb_event(self, bomb):
@@ -182,9 +182,6 @@ class Game:
 
             if distance <= 24:
                 b.kill()
-                
-    def kill_event(self, bird):
-        pass#self.lives.remove_life(bird)
                 
     def delete_bomb(self, bomb):
         self.bombs.remove(bomb)
@@ -225,4 +222,16 @@ class Game:
                 self.ctrl.reset_demo = True
         else:
             self.lives.update(tick)
-            
+            if self.mainchar.lives == 0:
+                self.menu.game_over = 1
+                self.menu.update(tick)
+            alives = 0
+            for b in self.birds:
+                if b.lives > 0:
+                    alives += 1 
+            if alives == 1 and self.mainchar.lives > 0:
+                self.menu.game_over = 2
+                self.menu.update(tick)
+            elif alives == 0:
+                self.menu.game_over = 3
+                self.menu.update(tick)

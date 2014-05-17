@@ -19,15 +19,29 @@ def play_demo():
     game.start()
     if game.ctrl.reset_demo:
         play_demo()
+    menu.birds = menu.cursor_pos + 2
+    return game.ctrl.quit
+
+def play_game():
+    game = Game(False, menu.birds, screen, menu)
+    game.start()
     return game.ctrl.quit
 
 while True:
-    menu.reset()
-    if play_demo():
-        break
-    game = Game(False, menu.cursor_pos + 2, screen, menu)
-    game.start()
-    if game.ctrl.quit:
-        break
+    if menu.game_over:
+        if menu.cursor_pos == 0:
+            menu.reset()
+            if play_game():
+                break
+        elif menu.cursor_pos == 1:
+            menu.reset()
+        elif menu.cursor_pos == 2:
+            break
+    else:
+        menu.reset()
+        if play_demo():
+            break
+        if play_game():
+            break
         
 pygame.quit()

@@ -33,6 +33,8 @@ class MenuManager:
         self.screen = screen
         self.current_screen = 0
         self.cursor_pos = 0
+        self.game_over = 0
+        self.birds = 0
         
     def next_screen(self):
         if self.current_screen == 2:
@@ -53,6 +55,7 @@ class MenuManager:
     def reset(self):
         self.current_screen = 0
         self.cursor_pos = 0
+        self.game_over = 0
         
     def show_game_title(self):
         font = media.get_font(8)
@@ -114,13 +117,44 @@ class MenuManager:
         s = font.render("press <space> to continue", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 130))
     
+    def show_game_over(self):
+        font = media.get_font(8)
+        
+        if self.game_over == 1:
+            s = font.render("GAME OVER!", True, (255,255,255))
+        elif self.game_over == 2:
+            s = font.render("YOU WON!", True, (255,255,255))
+        elif self.game_over == 3:
+            s = font.render("EVERYBIRD IS DEAD!", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
+        
+        if self.cursor_pos == 0:
+            s = font.render("-> play again", True, (255,255,255))
+        else:
+            s = font.render("   play again", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
+        
+        if self.cursor_pos == 1:
+            s = font.render("-> back to main menu", True, (255,255,255))
+        else:
+            s = font.render("   back to main menu", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 110))
+        if self.cursor_pos == 2:
+            s = font.render("-> quit", True, (255,255,255))
+        else:
+            s = font.render("   quit", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 120))
+        
     def update(self, tick):
-        if self.current_screen == 0:
-            self.show_demo_message()
-        elif self.current_screen == 1:
-            self.show_help()
-        elif self.current_screen == 2:
-            self.show_menu()
+        if self.game_over == 0:
+            if self.current_screen == 0:
+                self.show_demo_message()
+            elif self.current_screen == 1:
+                self.show_help()
+            elif self.current_screen == 2:
+                self.show_menu()
+        else:
+            self.show_game_over()
             
 class Minibird(Sprite):
     def __init__(self, image, x):
