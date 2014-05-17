@@ -197,7 +197,7 @@ class TNTCrate(Sprite):
             b.rect.x = self.rect.x
             b.rect.y = self.rect.y - 32
             b.launch(random.randint(-200, 200), -random.randint(50, 300))
-        self.rect = pygame.rect.Rect(10000,10000,0,0)
+        self.rect = pygame.rect.Rect(10000, 10000, 0, 0)
             
     def update(self, tick):
         pass

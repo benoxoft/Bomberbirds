@@ -35,8 +35,11 @@ class Bomb(Sprite):
     def launch(self, speedx, speedy):
         self.attached = False
         media.throw.play()
-        self.move.speedx = speedx * 2
-        self.move.speedy = speedy * 2
+        self.move.speedx = speedx * 2.2
+        if self.move.speedy <= 0:
+            self.move.speedy = speedy * 2
+        else:
+            self.move.speedy = speedy * 2.5
         self.move.posx = self.rect.x
         self.move.posy = self.rect.y
         

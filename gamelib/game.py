@@ -1,6 +1,6 @@
 import pygame
 import ui
-from bird import GreenBird, RedBird, PurpleBird, CyanBird
+from birds import GreenBird, RedBird, PurpleBird, CyanBird
 from brain import BirdBrain
 import math
 import media

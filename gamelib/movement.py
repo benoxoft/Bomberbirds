@@ -88,6 +88,7 @@ class Movement(Group):
             self.posy = 256
         if self.posy > 256:
             self.posy = -16
+            
     def get_new_posx(self, tick):
         return self.posx + self.speedx * tick / 1000.0
 
