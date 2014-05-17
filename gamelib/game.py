@@ -50,20 +50,20 @@ class Game:
         self.bg_color = (0, 0, 0)
         
         self.ui = ui.UI()
-        self.birds = Group()
+        self.birds = []
         self.mainchar = GreenBird(self)
-        self.birds.add(self.mainchar)
+        self.birds.append(self.mainchar)
         
         bird2 = RedBird(self)
-        self.birds.add(bird2)
+        self.birds.append(bird2)
         
         if birds >= 3:
             bird3 = PurpleBird(self)
-            self.birds.add(bird3)
+            self.birds.append(bird3)
         
         if birds == 4:
             bird4 = CyanBird(self)
-            self.birds.add(bird4)
+            self.birds.append(bird4)
 
         if demo:
             self.mainchar.brain = BirdBrain(self.mainchar, self.birds)
@@ -78,6 +78,8 @@ class Game:
         for b in self.birds:
             b.move.add(self.ui.tiles)
         
+        self.lives = ui.LifeCounter(self.birds, self.screen)
+
     def start(self):
         while self.ctrl.keepPlaying:
             for e in pygame.event.get():
@@ -221,4 +223,6 @@ class Game:
             if self.demo_timeout < 0:
                 self.ctrl.keepPlaying = False
                 self.ctrl.reset_demo = True
+        else:
+            self.lives.update(tick)
             

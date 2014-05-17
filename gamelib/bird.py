@@ -12,6 +12,7 @@ class Bird(Sprite):
                  bird,
                  birdflyup,
                  birdflydown,
+                 minibird,
                  initx,
                  inity, 
                  init_dir,
@@ -32,6 +33,7 @@ class Bird(Sprite):
         self.bird = bird
         self.birdflyup = birdflyup
         self.birdflydown = birdflydown
+        self.minibird = minibird
         self.deadbird = media.deadbird
         self.initx = initx
         self.inity = inity
@@ -187,6 +189,7 @@ class GreenBird(Bird):
                       media.bird1,
                       media.birdflyup1,
                       media.birdflydown1,
+                      media.minibird1,
                       32,
                       32,
                       1,
@@ -198,6 +201,7 @@ class RedBird(Bird):
                       media.bird2,
                       media.birdflyup2,
                       media.birdflydown2,
+                      media.minibird2,
                       192,
                       32,
                       -1, 
@@ -209,6 +213,7 @@ class PurpleBird(Bird):
                       media.bird3,
                       media.birdflyup3,
                       media.birdflydown3,
+                      media.minibird3,
                       32,
                       192,
                       1,
@@ -220,6 +225,7 @@ class CyanBird(Bird):
                       media.bird4,
                       media.birdflyup4,
                       media.birdflydown4,
+                      media.minibird4,
                       192,
                       192,
                       -1, 

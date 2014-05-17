@@ -27,10 +27,9 @@ class UI:
     def update(self, tick):
         pass
     
-class MenuManager(Group):
+class MenuManager:
 
     def __init__(self, screen):
-        Group.__init__(self)
         self.screen = screen
         self.current_screen = 0
         self.cursor_pos = 0
@@ -112,37 +111,41 @@ class MenuManager(Group):
         self.screen.blit(s, ((256 - s.get_width()) / 2, 110))
         s = font.render("press it again to throw it", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 120))
+        s = font.render("press <space> to continue", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 130))
     
     def update(self, tick):
         if self.current_screen == 0:
             self.show_demo_message()
         elif self.current_screen == 1:
-            self.show_menu()
-        elif self.current_screen == 2:
             self.show_help()
+        elif self.current_screen == 2:
+            self.show_menu()
             
 class Minibird(Sprite):
     def __init__(self, image, x):
         Sprite.__init__(self)
-        self.rect = pygame.rect.Rect(x, 0, 8, 8)
+        self.rect = pygame.rect.Rect(x, 4, 8, 8)
         self.image = image.convert()
         
-class LifeCounter(Group):
-    def __init__(self):
-        x = 8
-        for i in xrange(0, 3):
-            b = MiniBird(media.minibird1, x)
-            x += 20
-        for i in xrange(0, 3):
-            b = MiniBird(media.minibird2, x)
-            x += 20
-        for i in xrange(0, 3):
-            b = MiniBird(media.minibird3, x)
-            x += 20
-        for i in xrange(0, 3):
-            b = MiniBird(media.minibird4, x)
-            x += 20
-                    
+class LifeCounter:
+    def __init__(self, birds, screen):
+        self.birds = birds
+        self.screen = screen
+        
+    def update(self, tick):
+        x = 24
+        for b in self.birds:
+            for i in xrange(0, 3):
+                if i < b.lives:
+                    mb = Minibird(b.minibird, x)
+                    self.screen.blit(mb.image, pygame.rect.Rect(mb.rect.x, mb.rect.y, mb.rect.w, mb.rect.h))
+                else:
+                    mb = Minibird(media.minibirddead, x)
+                    self.screen.blit(mb.image, pygame.rect.Rect(mb.rect.x, mb.rect.y, mb.rect.w, mb.rect.h))
+                x += 10
+            x += 30
+            
     def bird_kill(self, bird):
         pass
     
