@@ -1,6 +1,6 @@
 import pygame
 import ui
-from bird import Bird
+from bird import GreenBird, RedBird, PurpleBird, CyanBird
 from brain import BirdBrain
 import math
 import os
@@ -35,16 +35,16 @@ class Game:
         
         self.ui = ui.UI()
         self.birds = Group()
-        self.mainchar = Bird(1, self.add_bomb)
+        self.mainchar = GreenBird(self.add_bomb)
         self.birds.add(self.mainchar)
         
-        bird2 = Bird(2, self.add_bomb)
+        bird2 = RedBird(self.add_bomb)
         self.birds.add(bird2)
         
-        #bird3 = Bird(3, self.add_bomb)
+        #bird3 = PurpleBird(self.add_bomb)
         #self.birds.add(bird3)
         
-        #bird4 = Bird(4, self.add_bomb)
+        #bird4 = CyanBird(self.add_bomb)
         #self.birds.add(bird4)
 
         #self.mainchar.brain = BirdBrain(self.mainchar, self.birds)

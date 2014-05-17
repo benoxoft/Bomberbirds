@@ -8,46 +8,30 @@ import media
 
 class Bird(Sprite):
     
-    def __init__(self, birdno, add_bomb):
+    def __init__(self,
+                 bird,
+                 birdflyup,
+                 birdflydown,
+                 initx,
+                 inity, 
+                 init_dir,
+                 add_bomb):
         Sprite.__init__(self)
         
-        self.imgflip = False
-        self.dir = 1
+        self.imgflip = init_dir == -1
         self.wing = 0 
         self.has_bomb = False
         self.bomb = None
         self.add_bomb = add_bomb
         self.dead = False
         self.brain = None
-        
-        if birdno == 1:
-            self.bird = media.bird1
-            self.birdflyup = media.birdflyup1
-            self.birdflydown = media.birdflydown1
-            self.initx = 32
-            self.inity = 32
-        elif birdno == 2:
-            self.bird = media.bird2
-            self.birdflyup = media.birdflyup2
-            self.birdflydown = media.birdflydown2
-            self.initx = 192
-            self.inity = 32
-            self.imgflip = True
-            self.dir = -1
-        elif birdno == 3:
-            self.bird = media.bird3
-            self.birdflyup = media.birdflyup3
-            self.birdflydown = media.birdflydown3
-            self.initx = 32
-            self.inity = 192
-        else:
-            self.bird = media.bird4
-            self.birdflyup = media.birdflyup4
-            self.birdflydown = media.birdflydown4
-            self.initx = 192
-            self.inity = 192
-            self.imgflip = True
-            self.dir = -1
+
+        self.bird = bird
+        self.birdflyup = birdflyup
+        self.birdflydown = birdflydown
+        self.initx = initx
+        self.inity = inity
+        self.dir = init_dir
 
         self.move = Movement(self, 
                              thrust_strength = 1000,
@@ -173,3 +157,46 @@ class Bird(Sprite):
         if self.lives == 0:
             self.raise_no_more_life_event()
         
+class GreenBird(Bird):
+    def __init__(self, add_bomb):
+        Bird.__init__(self,
+                      media.bird1,
+                      media.birdflyup1,
+                      media.birdflydown1,
+                      32,
+                      32,
+                      1,
+                      add_bomb)
+
+class RedBird(Bird):
+    def __init__(self, add_bomb):
+        Bird.__init__(self,
+                      media.bird2,
+                      media.birdflyup2,
+                      media.birdflydown2,
+                      192,
+                      32,
+                      -1, 
+                      add_bomb)
+
+class PurpleBird(Bird):
+    def __init__(self, add_bomb):
+        Bird.__init__(self,
+                      media.bird3,
+                      media.birdflyup3,
+                      media.birdflydown3,
+                      32,
+                      192,
+                      1,
+                      add_bomb)
+
+class CyanBird(Bird):
+    def __init__(self, add_bomb):
+        Bird.__init__(self,
+                      media.bird4,
+                      media.birdflyup4,
+                      media.birdflydown4,
+                      192,
+                      192,
+                      -1, 
+                      add_bomb)
