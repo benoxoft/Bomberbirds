@@ -15,20 +15,24 @@ class Bird(Sprite):
                  initx,
                  inity, 
                  init_dir,
-                 add_bomb):
+                 game):
         Sprite.__init__(self)
         
         self.imgflip = init_dir == -1
+        self.init_dir = init_dir
+        
         self.wing = 0 
         self.has_bomb = False
-        self.bomb = None
-        self.add_bomb = add_bomb
         self.dead = False
+        self.counter_resurrect = 0
+        self.counter_invincible = 0
         self.brain = None
+        self.bomb = None
 
         self.bird = bird
         self.birdflyup = birdflyup
         self.birdflydown = birdflydown
+        self.deadbird = media.deadbird
         self.initx = initx
         self.inity = inity
         self.dir = init_dir
@@ -43,7 +47,9 @@ class Bird(Sprite):
                              posx=self.initx,
                              posy=self.inity)
             
-        self.deadbird = media.deadbird
+
+        self.add_bomb = game.add_bomb_event
+        self.die = game.kill_event
         
         self.firstupdate = False
         self.image = self.bird
@@ -128,10 +134,33 @@ class Bird(Sprite):
         self.move.thrust(tick)
         
     def kill(self):
-        self.dead = True
-        media.kill.play()
+        if self.dead:
+            return 
+        if self.counter_invincible > 0:
+            return 
         
+        self.dead = True
+        self.lives -= 1
+        print self.lives
+        media.kill.play()
+        self.counter_resurrect = 3000
+        self.die(self)
+        
+#        if self.lives == 0:
+#            self.raise_no_more_life_event()
+
     def update(self, tick):
+        if self.counter_invincible > 0:
+            self.counter_invincible -= tick
+            
+        if self.dead and self.lives > 0:
+            self.counter_resurrect -= tick
+            if self.counter_resurrect < 0:
+                if self.lives > 0:
+                    self.dead = False
+                    self.set_init_pos()
+                    self.counter_invincible = 1000
+                    
         if self.brain is not None:
             self.brain.update(tick)
 
@@ -152,13 +181,8 @@ class Bird(Sprite):
     def raise_no_more_life_event(self):
         self.no_more_life_event()
 
-    def remove_life(self):
-        self.lives -= 1
-        if self.lives == 0:
-            self.raise_no_more_life_event()
-        
 class GreenBird(Bird):
-    def __init__(self, add_bomb):
+    def __init__(self, game):
         Bird.__init__(self,
                       media.bird1,
                       media.birdflyup1,
@@ -166,10 +190,10 @@ class GreenBird(Bird):
                       32,
                       32,
                       1,
-                      add_bomb)
+                      game)
 
 class RedBird(Bird):
-    def __init__(self, add_bomb):
+    def __init__(self, game):
         Bird.__init__(self,
                       media.bird2,
                       media.birdflyup2,
@@ -177,10 +201,10 @@ class RedBird(Bird):
                       192,
                       32,
                       -1, 
-                      add_bomb)
+                      game)
 
 class PurpleBird(Bird):
-    def __init__(self, add_bomb):
+    def __init__(self, game):
         Bird.__init__(self,
                       media.bird3,
                       media.birdflyup3,
@@ -188,10 +212,10 @@ class PurpleBird(Bird):
                       32,
                       192,
                       1,
-                      add_bomb)
+                      game)
 
 class CyanBird(Bird):
-    def __init__(self, add_bomb):
+    def __init__(self, game):
         Bird.__init__(self,
                       media.bird4,
                       media.birdflyup4,
@@ -199,4 +223,4 @@ class CyanBird(Bird):
                       192,
                       192,
                       -1, 
-                      add_bomb)
+                      game)

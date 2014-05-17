@@ -27,7 +27,31 @@ class UI:
     def update(self, tick):
         pass
     
-
+class Minibird(Sprite):
+    def __init__(self, image, x):
+        Sprite.__init__(self)
+        self.rect = pygame.rect.Rect(x, 0, 8, 8)
+        self.image = image.convert()
+        
+class LifeCounter(Group):
+    def __init__(self):
+        x = 8
+        for i in xrange(0, 3):
+            b = MiniBird(media.minibird1, x)
+            x += 20
+        for i in xrange(0, 3):
+            b = MiniBird(media.minibird2, x)
+            x += 20
+        for i in xrange(0, 3):
+            b = MiniBird(media.minibird3, x)
+            x += 20
+        for i in xrange(0, 3):
+            b = MiniBird(media.minibird4, x)
+            x += 20
+                    
+    def bird_kill(self, bird):
+        pass
+    
 class TNTCrate(Sprite):
     def __init__(self):
         Sprite.__init__(self)
@@ -69,7 +93,7 @@ class Tile(Sprite):
 
 class Grass(Tile):    
     def __init__(self, x, y, h, w):
-        Tile.__init__(self, media.grass2, x, y, h, w)
+        Tile.__init__(self, media.grass3, x, y, h, w)
     
 class Dirt(Tile):
     def __init__(self, x, y, h, w):
@@ -89,7 +113,7 @@ class Star(Sprite):
         self.star2 = media.star2.convert()
         self.star3 = media.star3.convert()
         self.current_star = random.randint(0, 10)
-        self.image = self.star0
+        self.image = self.star0.convert()
 
         self.next_update = 0
         
