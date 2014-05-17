@@ -3,7 +3,6 @@ import ui
 from bird import GreenBird, RedBird, PurpleBird, CyanBird
 from brain import BirdBrain
 import math
-import os
 import media
 
 from pygame.sprite import Group
@@ -27,13 +26,17 @@ class GameControl:
         
 class Game:
     
-    def __init__(self, demo):
-        os.environ['SDL_VIDEO_CENTERED'] = '1'
+    def __init__(self, 
+                 demo, 
+                 birds, 
+                 screen,
+                 menu):
         self.demo = demo
         self.demo_timeout = 45000
-        self.screen = pygame.display.set_mode((256, 240), pygame.HWSURFACE)
+        self.screen = screen
         self.ctrl = GameControl()
         self.clock = pygame.time.Clock()
+        self.menu = menu
         
         if demo:
             pygame.mixer.music.load(media.random_silly_chip_song_file)
@@ -54,59 +57,26 @@ class Game:
         bird2 = RedBird(self)
         self.birds.add(bird2)
         
-        bird3 = PurpleBird(self)
-        self.birds.add(bird3)
+        if birds >= 3:
+            bird3 = PurpleBird(self)
+            self.birds.add(bird3)
         
-        bird4 = CyanBird(self)
-        self.birds.add(bird4)
+        if birds == 4:
+            bird4 = CyanBird(self)
+            self.birds.add(bird4)
 
         if demo:
             self.mainchar.brain = BirdBrain(self.mainchar, self.birds)
         bird2.brain = BirdBrain(bird2, self.birds)
-        bird3.brain = BirdBrain(bird3, self.birds)
-        bird4.brain = BirdBrain(bird4, self.birds)
+        if birds >= 3:
+            bird3.brain = BirdBrain(bird3, self.birds)
+        if birds == 4:
+            bird4.brain = BirdBrain(bird4, self.birds)
         
         self.bombs = Group()
         
         for b in self.birds:
             b.move.add(self.ui.tiles)
-        
-    def show_game_title(self):
-        font = media.get_font(8)
-        s = font.render("BOMBERBIRDS", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 20))
-        s = font.render("entry for pyweek #18", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 30))
-        s = font.render("by Benoit Paquet", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 40))
-
-        s = font.render("music from opengameart.org", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 194))
-        s = font.render("menu theme by bart", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 204))
-        s = font.render("main theme by FoxSynergy", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 214))
-
-                
-    def show_demo_message(self):
-        self.show_game_title()
-        font = media.get_font(8)
-        s = font.render("press <space> to start", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
-        s = font.render("press <ESC> to quit anytime", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
-        
-    def show_menu(self):
-        self.show_game_title()
-        font = media.get_font(8)
-        s = font.render("Select how many birds", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
-        s = font.render("2 birds", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
-        s = font.render("3 birds", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
-        s = font.render("4 birds", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
         
     def start(self):
         while self.ctrl.keepPlaying:
@@ -173,7 +143,12 @@ class Game:
                 self.ctrl.keepPlaying = False  
                 self.ctrl.quit = True
             elif e.key == pygame.K_SPACE:
-                self.ctrl.keepPlaying = False  
+                if not self.menu.next_screen():
+                    self.ctrl.keepPlaying = False
+            elif e.key == pygame.K_UP:
+                self.menu.cursor_up()
+            elif e.key == pygame.K_DOWN:
+                self.menu.cursor_down()
     
     def add_bomb_event(self, bomb):
         self.bombs.add(bomb)
@@ -239,10 +214,11 @@ class Game:
                                      abs(bomb.rect.centery - b.rect.centery)**2)                
                 if distance <= 8:
                     bomb.explode()
+                    
         if self.demo:
+            self.menu.update(tick)
             self.demo_timeout -= tick
             if self.demo_timeout < 0:
                 self.ctrl.keepPlaying = False
                 self.ctrl.reset_demo = True
-            self.show_demo_message()
             

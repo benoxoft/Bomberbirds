@@ -27,6 +27,100 @@ class UI:
     def update(self, tick):
         pass
     
+class MenuManager(Group):
+
+    def __init__(self, screen):
+        Group.__init__(self)
+        self.screen = screen
+        self.current_screen = 0
+        self.cursor_pos = 0
+        
+    def next_screen(self):
+        if self.current_screen == 2:
+            return False
+        self.current_screen += 1
+        return True
+    
+    def cursor_up(self):
+        self.cursor_pos -= 1
+        if self.cursor_pos == -1:
+            self.cursor_pos = 2
+    
+    def cursor_down(self):
+        self.cursor_pos += 1
+        if self.cursor_pos == 3:
+            self.cursor_pos = 0
+    
+    def reset(self):
+        self.current_screen = 0
+        self.cursor_pos = 0
+        
+    def show_game_title(self):
+        font = media.get_font(8)
+        s = font.render("BOMBERBIRDS", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 20))
+        s = font.render("entry for pyweek #18", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 30))
+        s = font.render("by Benoit Paquet", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 40))
+
+        s = font.render("music from opengameart.org", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 194))
+        s = font.render("menu theme by bart", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 204))
+        s = font.render("main theme by FoxSynergy", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 214))
+                
+    def show_demo_message(self):
+        self.show_game_title()
+        font = media.get_font(8)
+        s = font.render("press <space> to start", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
+        s = font.render("press <ESC> to quit anytime", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
+        
+    def show_menu(self):
+        self.show_game_title()
+        font = media.get_font(8)
+        s = font.render("Select how many birds", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
+        if self.cursor_pos == 0:
+            s = font.render("-> 2 birds", True, (255,255,255))
+        else:
+            s = font.render("   2 birds", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
+        
+        if self.cursor_pos == 1:
+            s = font.render("-> 3 birds", True, (255,255,255))
+        else:
+            s = font.render("   3 birds", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 110))
+        if self.cursor_pos == 2:
+            s = font.render("-> 4 birds", True, (255,255,255))
+        else:
+            s = font.render("   4 birds", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 120))
+    
+    def show_help(self):
+        self.show_game_title()
+        font = media.get_font(8)
+        s = font.render("You are the green bird", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
+        s = font.render("Use a, d and w to move", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
+        s = font.render("<space> create a bomb", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 110))
+        s = font.render("press it again to throw it", True, (255,255,255))
+        self.screen.blit(s, ((256 - s.get_width()) / 2, 120))
+    
+    def update(self, tick):
+        if self.current_screen == 0:
+            self.show_demo_message()
+        elif self.current_screen == 1:
+            self.show_menu()
+        elif self.current_screen == 2:
+            self.show_help()
+            
 class Minibird(Sprite):
     def __init__(self, image, x):
         Sprite.__init__(self)
