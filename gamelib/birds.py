@@ -1,10 +1,30 @@
-from pygame.sprite import Sprite, Group
-from movement import Movement
-from bomb import Bomb
+#! /usr/bin/env python
+
+#    Copyright (C) 2014  Benoit <benoxoft> Paquet
+#
+#    This file is part of Bomberbirds.
+#
+#    Bomberbirds is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import math
 
 import pygame
-import math
+from pygame.sprite import Sprite
+
+import bomb
 import media
+import movement
 
 class Bird(Sprite):
     
@@ -27,6 +47,7 @@ class Bird(Sprite):
         self.dead = False
         self.counter_resurrect = 0
         self.counter_invincible = 0
+        self.invisible = False
         self.brain = None
         self.bomb = None
 
@@ -39,7 +60,7 @@ class Bird(Sprite):
         self.inity = inity
         self.dir = init_dir
 
-        self.move = Movement(self, 
+        self.move = movement.Movement(self, 
                              thrust_strength = 1000,
                              accelx = 700,
                              accely = 200,
@@ -48,7 +69,6 @@ class Bird(Sprite):
                              gravity = 400,
                              posx=self.initx,
                              posy=self.inity)
-            
 
         self.add_bomb = game.add_bomb_event
         
@@ -59,14 +79,12 @@ class Bird(Sprite):
         self.rect.height -= 4
         self.lives = 3
         
-        self.no_more_life_event = None
-
     def set_init_pos(self):
         self.move.posx = self.initx
         self.move.posy = self.inity
         self.move.speedx = 0
         self.move.speedy = 0
-        self.dir = 1
+        self.dir = self.init_dir
         self.flip()
         
     def nuke(self):
@@ -80,7 +98,7 @@ class Bird(Sprite):
             self.throw_bomb()
     
     def create_bomb(self):
-        self.bomb = Bomb(self)
+        self.bomb = bomb.Bomb(self)
         self.add_bomb(self.bomb)
         
     def throw_bomb(self):

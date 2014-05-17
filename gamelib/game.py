@@ -1,3 +1,22 @@
+#! /usr/bin/env python
+
+#    Copyright (C) 2014  Benoit <benoxoft> Paquet
+#
+#    This file is part of Bomberbirds.
+#
+#    Bomberbirds is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import pygame
 import ui
 from birds import GreenBird, RedBird, PurpleBird, CyanBird
@@ -197,7 +216,9 @@ class Game:
         
         for b in self.birds:
             b.update(tick)
-            self.screen.blit(b.image, pygame.rect.Rect(b.rect.x, b.rect.y, b.rect.w, b.rect.h))
+            if b.counter_invincible <= 0 or not b.invisible:
+                self.screen.blit(b.image, pygame.rect.Rect(b.rect.x, b.rect.y, b.rect.w, b.rect.h))
+            b.invisible = not b.invisible
             
         for bomb in self.bombs:
             bomb.update(tick)
