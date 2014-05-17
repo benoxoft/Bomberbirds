@@ -83,14 +83,14 @@ class MenuManager:
         self.screen.blit(s, ((256 - s.get_width()) / 2, 20))
         s = font.render("entry for pyweek #18", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 30))
-        s = font.render("by Benoit Paquet", True, (255,255,255))
+        s = font.render("by Benoit <benoxoft> Paquet", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 40))
 
         s = font.render("music from opengameart.org", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 194))
-        s = font.render("menu theme by bart", True, (255,255,255))
+        s = font.render("title song by bart", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 204))
-        s = font.render("main theme by FoxSynergy", True, (255,255,255))
+        s = font.render("game song by FoxSynergy", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 214))
                 
     def show_demo_message(self):
