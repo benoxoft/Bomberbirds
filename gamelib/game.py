@@ -17,14 +17,14 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import math
 import pygame
-import ui
+from pygame.sprite import Group
+
 from birds import GreenBird, RedBird, PurpleBird, CyanBird
 from brain import BirdBrain
-import math
 import media
-
-from pygame.sprite import Group
+import ui
 
 class GameControl:
 

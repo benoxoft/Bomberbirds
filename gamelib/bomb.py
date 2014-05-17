@@ -17,12 +17,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pygame.sprite import Sprite, Group
-from movement import Movement
-
-import pygame
 import math
+import pygame
+from pygame.sprite import Sprite
+
 import media
+import movement
 
 class Bomb(Sprite):
     
@@ -35,7 +35,7 @@ class Bomb(Sprite):
         self.boom = media.boom.convert()        
         self.rect = pygame.rect.Rect(self.bird.rect.x, bird.rect.y + 16, 16, 16)
         self.image = self.bomb
-        self.move = Movement(self,
+        self.move = movement.Movement(self,
                              accelx = 1000,
                              accely = 1000,
                              maxspeedx = 200,
