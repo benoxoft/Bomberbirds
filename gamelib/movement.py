@@ -103,94 +103,30 @@ class Movement(Group):
                 col = coll.rect
                 if newrect.right >= col.x and oldrect.right <= col.x:
                     self.posx = col.x - oldrect.width
-                    self.speedx = 0
+                    self.speedx = -self.speedx / 2
+                    if -30 < self.speedx < 30:
+                        self.speedx = 0 
                 if newrect.x <= col.right and oldrect.x >= col.right:
                     self.posx = col.right
-                    self.speedx = 0
+                    self.speedx = -self.speedx / 2
+                    if -30 < self.speedx < 30:
+                        self.speedx = 0 
                 if newrect.bottom >= col.y and oldrect.bottom <= col.y:
                     self.posy = col.y - oldrect.height
-                    self.speedy = 0
+                    self.speedy = -self.speedy / 2
+                    if -30 < self.speedy < 30:
+                        self.speedy = 0 
                     self.speedx /= self.decrease_speed_ratio
                     if self.speedx < 1 and self.speedx > -1:
                         self.speedx = 0
                 if newrect.y <= col.bottom and oldrect.y >= col.bottom:
                     self.posy = col.bottom
-                    self.speedy = 0
+                    self.speedy = -self.speedy / 2
+                    if -30 < self.speedy < 30:
+                        self.speedy = 0 
                     self.speedx /= self.decrease_speed_ratio
                     if self.speedx < 1 and self.speedx > -1:
                         self.speedx = 0
 
         self.bumping_walls = collisions
         
-    def check_collision_x(self, tick):
-        collisions = []
-        newposx = self.get_new_posx(tick)
-        if self.speedx > 0:
-            currentposx = self.moving_sprite.rect.right
-            newposx += + self.moving_sprite.rect.width
-            possible_cols = [col for col in self.sprites()
-                             if col.rect.x >= currentposx and col.rect.x <= newposx]
-            for spr in possible_cols:
-                dist = abs(spr.rect.right - currentposx)
-                t = float(dist/abs(self.speedx))
-                ypos = self.get_new_posy(t)
-                if ypos <= spr.rect.bottom and ypos >= spr.rect.top:
-                    collisions.append((t, spr.rect.x - self.moving_sprite.rect.width))
-        elif self.speedx < 0:
-            possible_cols = [col for col in self.sprites()
-                if col.rect.right <= self.posx and col.rect.right >= newposx]
-            for spr in possible_cols:
-                dist = abs(spr.rect.right - self.posx)
-                t = float(dist/abs(self.speedx))
-                ypos = self.get_new_posy(t)
-                if ypos <= spr.rect.bottom and ypos >= spr.rect.top:
-                    collisions.append((t, spr.rect.right))
-        if len(collisions) == 0:
-            return tick
-        else:
-            self.speedx = 0
-            first_col = tick
-            for t,x in collisions:
-                if t < first_col:
-                    first_col = t
-                    self.posx = x
-            return tick - first_col
-        
-    def check_collision_y(self, tick):
-        collisions = []
-        newposy = self.get_new_posy(tick)
-
-        if self.speedy > 0:
-            currentposy = self.posy + self.moving_sprite.rect.height
-            newposy += self.moving_sprite.rect.height
-            possible_cols = [col for col in self.sprites()
-                             if col.rect.top >= currentposy and col.rect.top <= newposy]
-            for spr in possible_cols:
-                dist = abs(spr.rect.top - currentposy)
-                t = float(dist/abs(self.speedy))
-                xpos = self.get_new_posx(t)
-                if xpos <= spr.rect.right and xpos >= spr.rect.x:
-                    collisions.append((t, spr.rect.top - self.moving_sprite.rect.height))
-        elif self.speedy < 0:            
-            possible_cols = [col for col in self.sprites()
-                             if col.rect.bottom <= self.posy and col.rect.bottom >= newposy]
-            for spr in possible_cols:
-                dist = abs(spr.rect.bottom - self.posy)
-                t = float(dist/abs(self.speedy))
-                xpos = self.get_new_posx(t)
-                if xpos <= spr.rect.right and xpos >= spr.rect.x:
-                    collisions.append((t, spr.rect.bottom))
-
-        if len(collisions) == 0:
-            return tick
-        else:
-            self.speedy = 0
-            self.speedx /= self.decrease_speed_ratio
-            if self.speedx < 1 and self.speedx > -1:
-                self.speedx = 0
-            first_col = tick
-            for t,y in collisions:
-                if t < first_col:
-                    first_col = t
-                    self.posy = y
-            return tick - first_col

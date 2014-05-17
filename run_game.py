@@ -18,7 +18,7 @@ def play_demo():
     game = Game(True, 4, screen, menu)
     game.start()
     if game.ctrl.reset_demo:
-        play_demo()
+        return play_demo()
     menu.birds = menu.cursor_pos + 2
     return game.ctrl.quit
 

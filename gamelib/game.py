@@ -67,6 +67,7 @@ class Game:
 
         if demo:
             self.mainchar.brain = BirdBrain(self.mainchar, self.birds)
+            
         bird2.brain = BirdBrain(bird2, self.birds)
         if birds >= 3:
             bird3.brain = BirdBrain(bird3, self.birds)

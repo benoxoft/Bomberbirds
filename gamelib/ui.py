@@ -8,7 +8,7 @@ class UI:
     
     def __init__(self):
         self.tiles = Group()
-        self.bg = Group()
+        self.bg = []
         self.tntcrate = TNTCrate()
         
         self.tiles.add(Grass(96, 176, 64, 16))
@@ -20,9 +20,9 @@ class UI:
         self.tiles.add(Grass(192, 224, 32, 16))
 
         for i in xrange(0, 50):
-            self.bg.add(Star())
+            self.bg.append(Star())
 
-        self.bg.add(self.tntcrate)
+        self.bg.append(self.tntcrate)
         
     def update(self, tick):
         pass
@@ -129,9 +129,9 @@ class MenuManager:
         self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
         
         if self.cursor_pos == 0:
-            s = font.render("-> play again", True, (255,255,255))
+            s = font.render("-> play again       ", True, (255,255,255))
         else:
-            s = font.render("   play again", True, (255,255,255))
+            s = font.render("   play again       ", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
         
         if self.cursor_pos == 1:
@@ -140,9 +140,9 @@ class MenuManager:
             s = font.render("   back to main menu", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 110))
         if self.cursor_pos == 2:
-            s = font.render("-> quit", True, (255,255,255))
+            s = font.render("-> quit             ", True, (255,255,255))
         else:
-            s = font.render("   quit", True, (255,255,255))
+            s = font.render("   quit             ", True, (255,255,255))
         self.screen.blit(s, ((256 - s.get_width()) / 2, 120))
         
     def update(self, tick):
