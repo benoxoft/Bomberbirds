@@ -26,6 +26,8 @@ from brain import BirdBrain
 import media
 import ui
 
+import gamelib as gl
+
 class GameControl:
 
     def __init__(self):
@@ -161,6 +163,22 @@ class Game:
     
     def manage_keys_demo(self, e):
         if e.type == pygame.KEYUP:
+            if not self.menu.game_over:
+                if e.key == pygame.K_1:
+                    gl.RESIZE_FACTOR = 1
+                    media.load_all_images()
+                    self.ctrl.keepPlaying = False
+                    self.ctrl.reset_demo = True
+                elif e.key == pygame.K_2:
+                    gl.RESIZE_FACTOR = 2
+                    media.load_all_images()
+                    self.ctrl.keepPlaying = False
+                    self.ctrl.reset_demo = True
+                elif e.key == pygame.K_3:
+                    gl.RESIZE_FACTOR = 3
+                    media.load_all_images()
+                    self.ctrl.keepPlaying = False
+                    self.ctrl.reset_demo = True
             if e.key == pygame.K_ESCAPE:
                 self.ctrl.keepPlaying = False  
                 self.ctrl.quit = True
@@ -183,7 +201,7 @@ class Game:
         distance = math.sqrt(
                              abs(bomb.rect.centerx - self.ui.tntcrate.rect.centerx)**2 +
                              abs(bomb.rect.centery - self.ui.tntcrate.rect.centery)**2)
-        if distance <= 56:
+        if distance <= 56 * gl.RESIZE_FACTOR:
             self.ui.tntcrate.explode(bomb.bird)
             
         for b in self.bombs:
@@ -192,7 +210,7 @@ class Game:
             distance = math.sqrt(
                                  abs(bomb.rect.centerx - b.rect.centerx)**2 +
                                  abs(bomb.rect.centery - b.rect.centery)**2)
-            if distance <= 24 and not b.exploded:
+            if distance <= 24 * gl.RESIZE_FACTOR and not b.exploded:
                 b.explode()
                 
         for b in self.birds:
@@ -200,7 +218,7 @@ class Game:
                                  abs(bomb.rect.centerx - b.rect.centerx)**2 +
                                  abs(bomb.rect.centery - b.rect.centery)**2)
 
-            if distance <= 24:
+            if distance <= 24 * gl.RESIZE_FACTOR:
                 b.kill()
                 
     def delete_bomb(self, bomb):
@@ -233,7 +251,7 @@ class Game:
                 distance = math.sqrt(
                                      abs(bomb.rect.centerx - b.rect.centerx)**2 +
                                      abs(bomb.rect.centery - b.rect.centery)**2)                
-                if distance <= 8:
+                if distance <= 8 * gl.RESIZE_FACTOR:
                     bomb.explode()
                     
         if self.demo:

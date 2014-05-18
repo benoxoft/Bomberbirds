@@ -17,6 +17,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import gamelib
+gamelib.RESIZE_FACTOR = 2
+
 import pygame
 pygame.init()
 pygame.mixer.init()
@@ -30,10 +33,11 @@ pygame.mouse.set_visible(False)
 import os
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-screen = pygame.display.set_mode((256, 240), pygame.HWSURFACE)
+screen = pygame.display.set_mode((256 * gamelib.RESIZE_FACTOR, 240 * gamelib.RESIZE_FACTOR), pygame.HWSURFACE)
 menu = MenuManager(screen)
 
 def play_demo():
+    pygame.display.set_mode((256 * gamelib.RESIZE_FACTOR, 240 * gamelib.RESIZE_FACTOR), pygame.HWSURFACE)
     game = Game(True, 4, screen, menu)
     game.start()
     if game.ctrl.reset_demo:
@@ -46,21 +50,24 @@ def play_game():
     game.start()
     return game.ctrl.quit
 
-while True:
-    if menu.game_over:
-        if menu.cursor_pos == 0:
+def run():
+    while True:
+        if menu.game_over:
+            if menu.cursor_pos == 0:
+                menu.reset()
+                if play_game():
+                    break
+            elif menu.cursor_pos == 1:
+                menu.reset()
+            elif menu.cursor_pos == 2:
+                break
+        else:
             menu.reset()
+            if play_demo():
+                break
             if play_game():
                 break
-        elif menu.cursor_pos == 1:
-            menu.reset()
-        elif menu.cursor_pos == 2:
-            break
-    else:
-        menu.reset()
-        if play_demo():
-            break
-        if play_game():
-            break
-        
-pygame.quit()
+            
+    pygame.quit()
+
+run()

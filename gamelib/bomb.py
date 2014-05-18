@@ -24,6 +24,8 @@ from pygame.sprite import Sprite
 import media
 import movement
 
+import gamelib as gl
+
 class Bomb(Sprite):
     
     def __init__(self, bird):
@@ -33,14 +35,14 @@ class Bomb(Sprite):
         self.bomb = media.bomb.convert()
         self.bomb2 = media.bomb2.convert()
         self.boom = media.boom.convert()        
-        self.rect = pygame.rect.Rect(self.bird.rect.x, bird.rect.y + 16, 16, 16)
+        self.rect = pygame.rect.Rect(self.bird.rect.x, bird.rect.y + 16 * gl.RESIZE_FACTOR, 16 * gl.RESIZE_FACTOR, 16 * gl.RESIZE_FACTOR)
         self.image = self.bomb
         self.move = movement.Movement(self,
-                             accelx = 1000,
-                             accely = 1000,
-                             maxspeedx = 200,
-                             maxspeedy = 200,
-                             gravity = 1000,
+                             accelx = 1000 * gl.RESIZE_FACTOR,
+                             accely = 1000 * gl.RESIZE_FACTOR,
+                             maxspeedx = 200 * gl.RESIZE_FACTOR,
+                             maxspeedy = 200 * gl.RESIZE_FACTOR,
+                             gravity = 1000 * gl.RESIZE_FACTOR,
                              decrease_speed_ratio = 2                        
                              )
         self.move.add(self.bird.move.sprites())
@@ -68,10 +70,10 @@ class Bomb(Sprite):
         self.explode_event(self)
         media.explode.play()
         self.attached = False
-        self.rect.height = 64
-        self.rect.width = 64
-        self.rect.x -= 16
-        self.rect.y -= 16
+        self.rect.height = 64 * gl.RESIZE_FACTOR
+        self.rect.width = 64 * gl.RESIZE_FACTOR
+        self.rect.x -= 16 * gl.RESIZE_FACTOR
+        self.rect.y -= 16 * gl.RESIZE_FACTOR
         self.image = self.boom
         
     def update(self, tick):
@@ -93,7 +95,7 @@ class Bomb(Sprite):
             
         if self.attached:
             self.rect.x = self.bird.rect.x
-            self.rect.y = self.bird.rect.y + 16
+            self.rect.y = self.bird.rect.y + 16 * gl.RESIZE_FACTOR
         elif not self.exploded:
             self.move.calculate_movement(tick)
     

@@ -24,6 +24,8 @@ import random
 from bomb import Bomb
 import media
 
+import gamelib as gl
+
 class UI:
     
     def __init__(self):
@@ -31,13 +33,13 @@ class UI:
         self.bg = []
         self.tntcrate = TNTCrate()
         
-        self.tiles.add(Grass(96, 176, 64, 16))
+        self.tiles.add(Grass(96 * gl.RESIZE_FACTOR, 176 * gl.RESIZE_FACTOR, 64 * gl.RESIZE_FACTOR, 16 * gl.RESIZE_FACTOR))
         
-        self.tiles.add(Grass(32, 64, 32, 16))
-        self.tiles.add(Grass(192, 64, 32, 16))
+        self.tiles.add(Grass(32 * gl.RESIZE_FACTOR, 64 * gl.RESIZE_FACTOR, 32 * gl.RESIZE_FACTOR, 16 * gl.RESIZE_FACTOR))
+        self.tiles.add(Grass(192 * gl.RESIZE_FACTOR, 64 * gl.RESIZE_FACTOR, 32 * gl.RESIZE_FACTOR, 16 * gl.RESIZE_FACTOR))
 
-        self.tiles.add(Grass(32, 224, 32, 16))
-        self.tiles.add(Grass(192, 224, 32, 16))
+        self.tiles.add(Grass(32 * gl.RESIZE_FACTOR, 224 * gl.RESIZE_FACTOR, 32 * gl.RESIZE_FACTOR, 16 * gl.RESIZE_FACTOR))
+        self.tiles.add(Grass(192 * gl.RESIZE_FACTOR, 224 * gl.RESIZE_FACTOR, 32 * gl.RESIZE_FACTOR, 16 * gl.RESIZE_FACTOR))
 
         for i in xrange(0, 50):
             self.bg.append(Star())
@@ -78,67 +80,69 @@ class MenuManager:
         self.game_over = 0
         
     def show_game_title(self):
-        font = media.get_font(8)
+        font = media.get_font(8 * gl.RESIZE_FACTOR)
         s = font.render("BOMBERBIRDS", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 20))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 20 * gl.RESIZE_FACTOR))
         s = font.render("entry for pyweek #18", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 30))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 30 * gl.RESIZE_FACTOR))
         s = font.render("by Benoit <benoxoft> Paquet", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 40))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 40 * gl.RESIZE_FACTOR))
 
         s = font.render("music from opengameart.org", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 194))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 194 * gl.RESIZE_FACTOR))
         s = font.render("title song by bart", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 204))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 204 * gl.RESIZE_FACTOR))
         s = font.render("game song by FoxSynergy", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 214))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 214 * gl.RESIZE_FACTOR))
                 
     def show_demo_message(self):
         self.show_game_title()
-        font = media.get_font(8)
+        font = media.get_font(8 * gl.RESIZE_FACTOR)
         s = font.render("press <space> to start", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 90 * gl.RESIZE_FACTOR))
         s = font.render("press <ESC> to quit anytime", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 100 * gl.RESIZE_FACTOR))
+        s = font.render("1,2,3 change screen resolution", True, (255,255,255))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 110 * gl.RESIZE_FACTOR))
         
     def show_menu(self):
         self.show_game_title()
-        font = media.get_font(8)
+        font = media.get_font(8 * gl.RESIZE_FACTOR)
         s = font.render("Select how many birds", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 90 * gl.RESIZE_FACTOR))
         if self.cursor_pos == 0:
             s = font.render("-> 2 birds", True, (255,255,255))
         else:
             s = font.render("   2 birds", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 100 * gl.RESIZE_FACTOR))
         
         if self.cursor_pos == 1:
             s = font.render("-> 3 birds", True, (255,255,255))
         else:
             s = font.render("   3 birds", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 110))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 110 * gl.RESIZE_FACTOR))
         if self.cursor_pos == 2:
             s = font.render("-> 4 birds", True, (255,255,255))
         else:
             s = font.render("   4 birds", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 120))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 120 * gl.RESIZE_FACTOR))
     
     def show_help(self):
         self.show_game_title()
-        font = media.get_font(8)
+        font = media.get_font(8 * gl.RESIZE_FACTOR)
         s = font.render("You are the green bird", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 90 * gl.RESIZE_FACTOR))
         s = font.render("Use a, d and w to move", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 100 * gl.RESIZE_FACTOR))
         s = font.render("<space> create a bomb", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 110))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 110 * gl.RESIZE_FACTOR))
         s = font.render("press it again to throw it", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 120))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 120 * gl.RESIZE_FACTOR))
         s = font.render("press <space> to continue", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 130))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 130 * gl.RESIZE_FACTOR))
     
     def show_game_over(self):
-        font = media.get_font(8)
+        font = media.get_font(8 * gl.RESIZE_FACTOR)
         
         if self.game_over == 1:
             s = font.render("GAME OVER!", True, (255,255,255))
@@ -146,24 +150,24 @@ class MenuManager:
             s = font.render("YOU WON!", True, (255,255,255))
         elif self.game_over == 3:
             s = font.render("EVERYBIRD IS DEAD!", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 90))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 90 * gl.RESIZE_FACTOR))
         
         if self.cursor_pos == 0:
             s = font.render("-> play again       ", True, (255,255,255))
         else:
             s = font.render("   play again       ", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 100))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 100 * gl.RESIZE_FACTOR))
         
         if self.cursor_pos == 1:
             s = font.render("-> back to main menu", True, (255,255,255))
         else:
             s = font.render("   back to main menu", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 110))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 110 * gl.RESIZE_FACTOR))
         if self.cursor_pos == 2:
             s = font.render("-> quit             ", True, (255,255,255))
         else:
             s = font.render("   quit             ", True, (255,255,255))
-        self.screen.blit(s, ((256 - s.get_width()) / 2, 120))
+        self.screen.blit(s, ((256 * gl.RESIZE_FACTOR - s.get_width()) / 2, 120 * gl.RESIZE_FACTOR))
         
     def update(self, tick):
         if self.game_over == 0:
@@ -179,7 +183,7 @@ class MenuManager:
 class Minibird(Sprite):
     def __init__(self, image, x):
         Sprite.__init__(self)
-        self.rect = pygame.rect.Rect(x, 4, 8, 8)
+        self.rect = pygame.rect.Rect(x, 4 * gl.RESIZE_FACTOR, 8 * gl.RESIZE_FACTOR, 8 * gl.RESIZE_FACTOR)
         self.image = image.convert()
         
 class LifeCounter:
@@ -188,7 +192,7 @@ class LifeCounter:
         self.screen = screen
         
     def update(self, tick):
-        x = 24
+        x = 24 * gl.RESIZE_FACTOR
         for b in self.birds:
             for i in xrange(0, 3):
                 if i < b.lives:
@@ -197,8 +201,8 @@ class LifeCounter:
                 else:
                     mb = Minibird(media.minibirddead, x)
                     self.screen.blit(mb.image, pygame.rect.Rect(mb.rect.x, mb.rect.y, mb.rect.w, mb.rect.h))
-                x += 10
-            x += 30
+                x += 10 * gl.RESIZE_FACTOR
+            x += 30 * gl.RESIZE_FACTOR
             
     def bird_kill(self, bird):
         pass
@@ -206,7 +210,7 @@ class LifeCounter:
 class TNTCrate(Sprite):
     def __init__(self):
         Sprite.__init__(self)
-        self.rect = pygame.rect.Rect(96, 112, 64, 64)
+        self.rect = pygame.rect.Rect(96 * gl.RESIZE_FACTOR, 112 * gl.RESIZE_FACTOR, 64 * gl.RESIZE_FACTOR, 64 * gl.RESIZE_FACTOR)
         self.image = media.tntcrate.convert()
         
     def explode(self, bird):
@@ -215,8 +219,8 @@ class TNTCrate(Sprite):
             bird.add_bomb(b)
             b.timeout = 1600
             b.rect.x = self.rect.x
-            b.rect.y = self.rect.y - 32
-            b.launch(random.randint(-200, 200), -random.randint(50, 300))
+            b.rect.y = self.rect.y - 32 * gl.RESIZE_FACTOR
+            b.launch(random.randint(-200 * gl.RESIZE_FACTOR, 200 * gl.RESIZE_FACTOR), -random.randint(50 * gl.RESIZE_FACTOR, 300 * gl.RESIZE_FACTOR))
         self.rect = pygame.rect.Rect(10000, 10000, 0, 0)
             
     def update(self, tick):
@@ -258,7 +262,7 @@ class Star(Sprite):
     
     def __init__(self):
         Sprite.__init__(self)
-        self.rect = pygame.rect.Rect(random.randint(16, 240), random.randint(16, 224), 16, 16)
+        self.rect = pygame.rect.Rect(random.randint(16 * gl.RESIZE_FACTOR, 240 * gl.RESIZE_FACTOR), random.randint(16 * gl.RESIZE_FACTOR, 224 * gl.RESIZE_FACTOR), 16 * gl.RESIZE_FACTOR, 16 * gl.RESIZE_FACTOR)
         self.star0 = media.star0.convert()
         self.star1 = media.star1.convert()
         self.star2 = media.star2.convert()

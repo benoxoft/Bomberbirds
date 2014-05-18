@@ -22,6 +22,8 @@ from pygame.rect import Rect
 
 import math
 
+import gamelib as gl
+
 class Movement(Group):
     def  __init__(self, moving_sprite,
                   speedx = 0,
@@ -81,14 +83,14 @@ class Movement(Group):
         self.posy = self.get_new_posy(tick)
         self.posx = self.get_new_posx(tick)
 
-        if self.posx < -16:
-            self.posx = 272
-        if self.posx > 272:
-            self.posx = -16
-        if self.posy < -16:
-            self.posy = 256
-        if self.posy > 256:
-            self.posy = -16
+        if self.posx < -16 * gl.RESIZE_FACTOR:
+            self.posx = 272 * gl.RESIZE_FACTOR
+        if self.posx > 272 * gl.RESIZE_FACTOR:
+            self.posx = -16 * gl.RESIZE_FACTOR
+        if self.posy < -16 * gl.RESIZE_FACTOR:
+            self.posy = 256 * gl.RESIZE_FACTOR
+        if self.posy > 256 * gl.RESIZE_FACTOR:
+            self.posy = -16 * gl.RESIZE_FACTOR
             
     def get_new_posx(self, tick):
         return self.posx + self.speedx * tick / 1000.0
@@ -106,17 +108,17 @@ class Movement(Group):
                 if newrect.right >= col.x and oldrect.right <= col.x:
                     self.posx = col.x - oldrect.width
                     self.speedx = -self.speedx / 2
-                    if -30 < self.speedx < 30:
+                    if -30 * gl.RESIZE_FACTOR < self.speedx < 30 * gl.RESIZE_FACTOR:
                         self.speedx = 0 
                 if newrect.x <= col.right and oldrect.x >= col.right:
                     self.posx = col.right
                     self.speedx = -self.speedx / 2
-                    if -30 < self.speedx < 30:
+                    if -30 * gl.RESIZE_FACTOR < self.speedx < 30 * gl.RESIZE_FACTOR:
                         self.speedx = 0 
                 if newrect.bottom >= col.y and oldrect.bottom <= col.y:
                     self.posy = col.y - oldrect.height
                     self.speedy = -self.speedy / 2
-                    if -30 < self.speedy < 30:
+                    if -30 * gl.RESIZE_FACTOR < self.speedy < 30 * gl.RESIZE_FACTOR:
                         self.speedy = 0 
                     self.speedx /= self.decrease_speed_ratio
                     if self.speedx < 1 and self.speedx > -1:
@@ -124,7 +126,7 @@ class Movement(Group):
                 if newrect.y <= col.bottom and oldrect.y >= col.bottom:
                     self.posy = col.bottom
                     self.speedy = -self.speedy / 2
-                    if -30 < self.speedy < 30:
+                    if -30 * gl.RESIZE_FACTOR < self.speedy < 30 * gl.RESIZE_FACTOR:
                         self.speedy = 0 
                     self.speedx /= self.decrease_speed_ratio
                     if self.speedx < 1 and self.speedx > -1:

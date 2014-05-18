@@ -21,15 +21,21 @@ import pygame
 import os
 import sys
 
+import gamelib as gl
+
 m = sys.modules[__name__]
 
 def load_image(img):
-    return pygame.image.load(img)
+    image = pygame.image.load(img)
+    return pygame.transform.scale(image, (image.get_width() * gl.RESIZE_FACTOR, image.get_height() * gl.RESIZE_FACTOR))
+    #return pygame.transform.scale2x(pygame.image.load(img))
 
 def load_all_images():
     for f in os.listdir(os.path.join(os.path.dirname(__file__), '..', 'media', 'images')):
         filename, _ = os.path.splitext(f)
         fullf = os.path.abspath(os.path.join('media', 'images', f))
+        if hasattr(m, filename):
+            delattr(m, filename)
         setattr(m, filename, load_image(fullf))
 
 def load_sound(snd):

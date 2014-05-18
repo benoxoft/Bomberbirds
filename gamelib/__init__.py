@@ -1,0 +1,2 @@
+
+RESIZE_FACTOR = 1

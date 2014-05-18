@@ -26,6 +26,8 @@ import bomb
 import media
 import movement
 
+import gamelib as gl
+
 class Bird(Sprite):
     
     def __init__(self,
@@ -61,12 +63,12 @@ class Bird(Sprite):
         self.dir = init_dir
 
         self.move = movement.Movement(self, 
-                             thrust_strength = 1000,
-                             accelx = 700,
-                             accely = 200,
-                             maxspeedx = 120,
-                             maxspeedy = 160,
-                             gravity = 400,
+                             thrust_strength = 1000 * gl.RESIZE_FACTOR,
+                             accelx = 700 * gl.RESIZE_FACTOR,
+                             accely = 200 * gl.RESIZE_FACTOR,
+                             maxspeedx = 120 * gl.RESIZE_FACTOR,
+                             maxspeedy = 160 * gl.RESIZE_FACTOR,
+                             gravity = 400 * gl.RESIZE_FACTOR,
                              posx=self.initx,
                              posy=self.inity)
 
@@ -193,9 +195,6 @@ class Bird(Sprite):
         self.rect.x = self.move.posx
         self.rect.y = self.move.posy
 
-    def raise_no_more_life_event(self):
-        self.no_more_life_event()
-
 class GreenBird(Bird):
     def __init__(self, game):
         Bird.__init__(self,
@@ -203,8 +202,8 @@ class GreenBird(Bird):
                       media.birdflyup1,
                       media.birdflydown1,
                       media.minibird1,
-                      32,
-                      32,
+                      32 * gl.RESIZE_FACTOR,
+                      32 * gl.RESIZE_FACTOR,
                       1,
                       game)
 
@@ -215,8 +214,8 @@ class RedBird(Bird):
                       media.birdflyup2,
                       media.birdflydown2,
                       media.minibird2,
-                      192,
-                      32,
+                      192 * gl.RESIZE_FACTOR,
+                      32 * gl.RESIZE_FACTOR,
                       -1, 
                       game)
 
@@ -227,8 +226,8 @@ class PurpleBird(Bird):
                       media.birdflyup3,
                       media.birdflydown3,
                       media.minibird3,
-                      32,
-                      192,
+                      32 * gl.RESIZE_FACTOR,
+                      192 * gl.RESIZE_FACTOR,
                       1,
                       game)
 
@@ -239,7 +238,7 @@ class CyanBird(Bird):
                       media.birdflyup4,
                       media.birdflydown4,
                       media.minibird4,
-                      192,
-                      192,
+                      192 * gl.RESIZE_FACTOR,
+                      192 * gl.RESIZE_FACTOR,
                       -1, 
                       game)
